@@ -37,7 +37,6 @@ try:
 except ImportError, e:
     pass
 print output
-print output
 ```
 
 Example of output:
