@@ -1,7 +1,7 @@
 # ph #
 
 When you want to generate HTML output in a python script, but you don't want
-to use template-like syntax, ph is a good choice.
+to use template-like syntax, [ph] is a good choice.
 
 ## Demo ##
 
@@ -75,3 +75,17 @@ Example of output:
 </html>
 
 ```
+
+## Install ##
+ 
+Simply copy [ph.py] to your project.
+
+## Misc ##
+
+[ph] is inspired by [pyh].
+
+
+
+[ph]:https://github.com/fcamel/ph
+[pyh]:https://code.google.com/p/pyh/
+[ph.py]:https://raw.githubusercontent.com/fcamel/ph/master/ph.py
