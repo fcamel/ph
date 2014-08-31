@@ -16,11 +16,16 @@ _tags = set([
     'ul', 'ol', 'li',
 ])
 
+def escape_double_quote(string):
+    return string.replace('"', '&quot;')
+
+
 class Tag(object):
     tag_name = 'noname'
 
     def __init__(self, *args, **kwargs):
         self._children = []
+        self._attributes = kwargs
         if len(args) >= 1:
             self << Text(args[0])
 
@@ -29,7 +34,17 @@ class Tag(object):
 
     def __unicode__(self):
         output = []
-        output.append(u'<%s>' % self.tag_name)
+        attributes = []
+        for key in sorted(self._attributes.keys()):
+            k = escape_double_quote(key)
+            v = escape_double_quote(self._attributes[key])
+            attributes.append(u'%s="%s"' % (k, v))
+
+        if attributes:
+            attr = u' ' + u' '.join(attributes)
+        else:
+            attr = u''
+        output.append(u'<%s%s>' % (self.tag_name, attr))
         for tag in self._children:
             output.append(unicode(tag))
         output.append(u'</%s>' % self.tag_name)

@@ -96,6 +96,25 @@ class PhTest(unittest.TestCase):
         )
         self.assertEquals(split_tag_text(expected), split_tag_text(actual))
 
+    def testSetAttributes(self):
+        html = ph.HTML()
+        html.body() << ph.div('Hello', id='msg', style='width: 400px;')
+        actual = unicode(html)
+
+        expected = (
+            u'<!DOCTYPE html>'
+            u'<html>'
+            u'<head>'
+            u'<title>No Title</title>'
+            u'</head>'
+            u'<body>'
+            u'<div id="msg" style="width: 400px;">'
+            u'Hello'
+            u'</div>'
+            u'</body>'
+            u'</html>'
+        )
+        self.assertEquals(split_tag_text(expected), split_tag_text(actual))
 
 if __name__ == '__main__':
     unittest.main()
