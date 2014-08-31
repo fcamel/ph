@@ -9,7 +9,8 @@ __author__ = 'fcamel'
 
 _tags = set([
     'html', 'body', 'head', 'link', 'meta', 'div', 'p', 'form', 'legend',
-    'input', 'select', 'span', 'b', 'i', 'option', 'img', 'script', 'style',
+    'input', 'select', 'span', 'strong', 'b', 'i', 'option',
+    'img', 'script', 'style',
     'table', 'tr', 'td', 'th', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
     'fieldset', 'a', 'title', 'body', 'head', 'br',
     'ul', 'ol', 'li',
@@ -35,6 +36,8 @@ class Tag(object):
         return u''.join(output)
 
     def __lshift__(self, child):
+        if not isinstance(child, Tag):
+            child = Text(child)
         self._children.append(child)
         return self
 
@@ -67,13 +70,22 @@ class HTML(object):
     doc_type = u'<!DOCTYPE html>'
 
     def __init__(self):
-        self._html = html() << (head() << title(u'No Title')) << body();
+        self._html = html()
+        self._head = head() << title(u'No Title')
+        self._body = body()
+        self._html << self._head << self._body
 
     def __str__(self):
         return unicode(self)
 
     def __unicode__(self):
         return HTML.doc_type + unicode(self._html)
+
+    def head(self):
+        return self._head
+
+    def body(self):
+        return self._body
 
 
 def setup():
