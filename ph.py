@@ -86,7 +86,8 @@ class HTML(object):
 
     def __init__(self):
         self._html = html()
-        self._head = head() << title(u'No Title')
+        self._title = title(u'No Title')
+        self._head = head() << self._title
         self._body = body()
         self._html << self._head << self._body
 
@@ -101,6 +102,9 @@ class HTML(object):
 
     def body(self):
         return self._body
+
+    def title(self):
+        return self._title
 
 
 def setup():
