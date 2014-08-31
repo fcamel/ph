@@ -116,4 +116,21 @@ setup()
 
 
 if __name__ == '__main__':
-    pass
+    html = HTML()
+    body = html.body()
+    body << h1('The Headline')
+    body << h2('Subtitle')
+    body << div(id='main')
+    new_div = body.last_child()
+    new_div << p('This is the first paragraph.')
+    new_div << (p() << 'This is an ' << strong('important') << ' sentence.')
+    body << div('Another div.')
+
+    output = unicode(html)
+    try:
+        import BeautifulSoup
+        soup = BeautifulSoup.BeautifulSoup(output)
+        output = soup.prettify()
+    except ImportError, e:
+        pass
+    print output
