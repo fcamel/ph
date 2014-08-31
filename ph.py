@@ -62,6 +62,9 @@ class Tag(object):
         self._children.append(child)
         return self
 
+    def __xor__(self, replacement):
+        self._children = [replacement]
+
     def last_child(self):
         if not self._children:
             return None
@@ -131,6 +134,7 @@ if __name__ == '__main__':
     h2.set_default_inline_style('color: orange;')
 
     html = HTML()
+    html.title() ^ 'My HTML Report'
     body = html.body()
     body << h1('The Headline')
     body << h2('Subtitle')

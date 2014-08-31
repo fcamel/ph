@@ -141,6 +141,23 @@ class PhTest(unittest.TestCase):
         )
         self.assertEquals(split_tag_text(expected), split_tag_text(actual))
 
+    def testReplaceContent(self):
+        html = ph.HTML()
+        html.title() ^ 'My New Title'
+        actual = unicode(html)
+
+        expected = (
+            u'<!DOCTYPE html>'
+            u'<html>'
+            u'<head>'
+            u'<title>My New Title</title>'
+            u'</head>'
+            u'<body>'
+            u'</body>'
+            u'</html>'
+        )
+        self.assertEquals(split_tag_text(expected), split_tag_text(actual))
+
 
 if __name__ == '__main__':
     unittest.main()
