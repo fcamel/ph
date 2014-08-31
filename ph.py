@@ -35,9 +35,15 @@ class Tag(object):
     def __unicode__(self):
         output = []
         attributes = []
-        for key in sorted(self._attributes.keys()):
+        attr_keys = self._attributes.keys()
+        default_inline_style = self.__class__.default_inline_style
+        if 'style' not in attr_keys and default_inline_style:
+            attr_keys.append('style')
+        for key in sorted(attr_keys):
             k = escape_double_quote(key)
-            v = escape_double_quote(self._attributes[key])
+            v = escape_double_quote(self._attributes.get(key, u''))
+            if k == 'style' and default_inline_style:
+                v = default_inline_style + v
             attributes.append(u'%s="%s"' % (k, v))
 
         if attributes:
@@ -61,6 +67,10 @@ class Tag(object):
             return None
         return self._children[-1]
 
+    @classmethod
+    def set_default_inline_style(cls, style):
+        cls.default_inline_style = style
+
 
 class Text(Tag):
     tag_name = '__text__'
@@ -77,6 +87,7 @@ class Text(Tag):
 def create_new_tag(name):
     class NewTag(Tag):
         tag_name = name
+        default_inline_style = u''
     NewTag.__name__ = name
     return NewTag
 
@@ -116,6 +127,9 @@ setup()
 
 
 if __name__ == '__main__':
+    # This is useful to generate HTML in email.
+    h2.set_default_inline_style('color: orange;')
+
     html = HTML()
     body = html.body()
     body << h1('The Headline')

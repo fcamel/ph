@@ -15,10 +15,10 @@ def split_tag_text(string):
 
 class PhTest(unittest.TestCase):
     def setUp(self):
-        pass
+        ph.p.default_inline_style = u''
 
     def tearDown(self):
-        pass
+        ph.p.default_inline_style = u''
 
     def testEmpty(self):
         html = ph.HTML()
@@ -115,6 +115,32 @@ class PhTest(unittest.TestCase):
             u'</html>'
         )
         self.assertEquals(split_tag_text(expected), split_tag_text(actual))
+
+    def testDefaultInlineStyle(self):
+        html = ph.HTML()
+        html.body() << ph.p('ohoh')
+        ph.p.set_default_inline_style('color: red;')
+        html.body() << ph.p('lala', style='line-height: 20px;')
+        actual = unicode(html)
+
+        expected = (
+            u'<!DOCTYPE html>'
+            u'<html>'
+            u'<head>'
+            u'<title>No Title</title>'
+            u'</head>'
+            u'<body>'
+            u'<p style="color: red;">'
+            u'ohoh'
+            u'</p>'
+            u'<p style="color: red;line-height: 20px;">'
+            u'lala'
+            u'</p>'
+            u'</body>'
+            u'</html>'
+        )
+        self.assertEquals(split_tag_text(expected), split_tag_text(actual))
+
 
 if __name__ == '__main__':
     unittest.main()
